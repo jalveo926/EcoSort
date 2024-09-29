@@ -1,0 +1,11 @@
+# Ignorar la carpeta de dependencias
+output/
+node_modules/
+
+# Ignorar archivos de instaladores
+*.exe
+*.msi
+*.dmg
+
+# Ignorar archivos de configuración local
+.env
