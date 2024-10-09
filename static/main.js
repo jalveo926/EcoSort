@@ -9,7 +9,7 @@ const config = {
     physics: {
         default: 'arcade',
         arcade: {
-            gravity: { y: 200 }, // Gravedad para que los desechos caigan
+            gravity: { y: 500 }, // Gravedad para que los desechos caigan
             debug: false
         }
     },
@@ -34,28 +34,43 @@ let game = new Phaser.Game(config);
 
 // Preload: carga los assets (gráficos) necesarios
 function preload() {
-    this.load.image('background', 'path/to/background.png');
-    this.load.image('trash', 'path/to/trash.png'); // Imagen de basura
-    this.load.image('container1', 'path/to/container1.png'); // Contenedor 1
-    this.load.image('container2', 'path/to/container2.png'); // Contenedor 2
-    this.load.image('container3', 'path/to/container3.png'); // Contenedor 3
-    this.load.image('container4', 'path/to/container4.png'); // Contenedor 4
-    this.load.image('container5', 'path/to/container5.png'); // Contenedor 5
-    this.load.image('container6', 'path/to/container6.png'); // Contenedor 6
+    this.load.image("background", ".//sprites/background.png");
+    this.load.image('trash', 'sprites/trash.png'); // Imagen de basura
+    this.load.image('contenedorPapel', 'sprites/contenedorPapel.png'); // Contenedor de papel
+    this.load.image('contenedorPlastico', 'sprites/contenedorPlastico.png'); // Contenedor de plástico
+    this.load.image('contenedorVidrio', 'sprites/contenedorVidrio.png'); // Contenedor de vidrio
+    this.load.image('contenedorMetal', 'sprites/contenedorMetal.png'); // Contenedor de metal
+    this.load.image('contenedorOrganico', 'sprites/contenedorOrganico.png'); // Contenedor orgánico
+    this.load.image('contenedorGeneral', 'sprites/contenedorGeneral.png'); // Contenedor de residuos generales
 }
 
 // Create: inicializa los objetos en la escena
 function create() {
-    // Fondo centrado en la parte superior
-    this.add.image(config.width / 2, config.height / 2, 'background');
+    
+    // Fondo centrado en la parte superior, la imagen esta en comentario porque ocupa mucho espacio por ahora
+    //this.add.image(0,0, "background"); 
 
     // Contenedores en la parte inferior (6 en total)
-    containers[0] = this.physics.add.staticImage(200, 800, 'container1');
-    containers[1] = this.physics.add.staticImage(500, 800, 'container2');
-    containers[2] = this.physics.add.staticImage(800, 800, 'container3');
-    containers[3] = this.physics.add.staticImage(1100, 800, 'container4');
-    containers[4] = this.physics.add.staticImage(1400 , 800, 'container5');
-    containers[5] = this.physics.add.staticImage(1700, 800, 'container6');
+    // Crear los contenedores en la parte inferior (6 en total)
+    containers[0] = this.physics.add.staticImage(200, 800, 'contenedorPapel').setDisplaySize(150, 150);
+    containers[0].setSize(150, 150); // Ajustar la hitbox
+
+    containers[1] = this.physics.add.staticImage(500, 800, 'contenedorPlastico').setDisplaySize(150, 150);
+    containers[1].setSize(150, 150); // Ajustar la hitbox
+
+    containers[2] = this.physics.add.staticImage(800, 800, 'contenedorVidrio').setDisplaySize(290,290);
+    containers[2].setSize(200, 200); // Ajustar la hitbox
+
+    containers[3] = this.physics.add.staticImage(1100, 800, 'contenedorMetal').setDisplaySize(150, 150);
+    containers[3].setSize(150, 150); // Ajustar la hitbox
+
+    containers[4] = this.physics.add.staticImage(1400, 800, 'contenedorOrganico').setDisplaySize(150, 150);
+    containers[4].setSize(150, 150); // Ajustar la hitbox
+
+    containers[5] = this.physics.add.staticImage(1700, 800, 'contenedorGeneral').setDisplaySize(150, 150);
+    containers[5].setSize(150, 150); // Ajustar la hitbox
+
+
 
     // Crear el objeto de basura
     trash = this.physics.add.sprite(800, 50, 'trash');
