@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoSort</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    
+    <h1>EcoSort</h1>
+
+    <button onclick="openPopup('jugar')">Jugar</button>
+    <button onclick="openPopup('aprende')">Aprende Más</button>
+    <button onclick="openPopup('creditos')">Créditos</button>
+    
+    <div id="overlay" class="overlay" onclick="closePopup()"></div>
+    
+    <div class="popup-container">
+        <div id="jugar" class="popup">
+            <h2>Pop-up 1</h2>
+            <p>Contenido del primer pop-up.</p>
+           
+        </div>
+    
+        <div id="aprende" class="popup">
+            <p>Aprende Más</p>
+           
+        </div>
+    
+        <div id="creditos" class="popup">
+            
+            <p class="creditos-text">Universidad Tecnológica de Panamá</p> <br>
+            <p class="creditos-text">Jesús Alveo</p>
+            <p class="creditos-text">José Muñoz</p>
+            <p class="creditos-text">Roniel Quintero</p>
+            <p class="creditos-text">Jessica Zheng</p>
+            <p class="creditos-text">Jorges Torres</p>
+           
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
