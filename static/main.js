@@ -147,42 +147,60 @@ function update() {
 
 // Función para verificar si la basura cae en el contenedor correcto
 function matchContainer(trash, container) {
-    // Sumar puntos por acierto
-    const puntosObtenidos = calcularPuntos(trash,container);
-    if(score - puntosObtenidos <0) 
-        score = score;
-    else score += puntosObtenidos;
+   
+     // Sumar puntos por acierto
+     const puntosObtenidos = calcularPuntos(trash, container);
+    
+     if (score  + puntosObtenidos < 0) 
+         score = 0;
+     else 
+         score += puntosObtenidos;
+     
+     scoreText.setText('Puntuación: ' + score);
+    if (container.texture && container.texture.key) {
+        console.log("Container clave: " + container.texture.key);
+    } else {
+        console.error("El contenedor no está definido correctamente:", container);
+        return; // Salir de la función si el contenedor no es válido
+    }
+
     // Lógica para detectar si es el contenedor correcto
-    // Volver a generar basura desde arriba después de un acierto
     trash.y = 50;
-    // Array con posicione especificas
-    const posicionesX = [200,500,800,1100,1400,1700]
-    const IndiceAleatorio = Phaser.Math.Between(0,posicionesX.length -1); // Posición aleatoria
+    const posicionesX = [200, 500, 800, 1100, 1400, 1700];
+    const IndiceAleatorio = Phaser.Math.Between(0, posicionesX.length - 1);
     trash.x = posicionesX[IndiceAleatorio];
     const IndiceImagenAleatorio = Phaser.Math.Between(0, imagenestrash.length - 1);
-    trash.setTexture(imagenestrash[IndiceImagenAleatorio]);  // Cambiar la imagen del objeto basura
-    trash.setDisplaySize(120,120);
-     
-    if (score >= 0)
-    scoreText.setText('Puntuación: ' + score);
+    trash.setTexture(imagenestrash[IndiceImagenAleatorio]);
+    trash.setDisplaySize(120, 120);
+
+   
 }
 
-function calcularPuntos(trash,container){
+
+function calcularPuntos(trash, container) {
     let puntos = 0;
-    if (container.texture.key === 'contenedorPapel' && trash.texture.key === 'desechoPapel')
-        puntos += 10;
-    else if (container.texture.key === 'contenedorPlastico' && trash.texture.key === 'desechoPlastico')
-        puntos += 10;
-    else if (container.texture.key === 'contenedorVidrio' && trash.texture.key === 'desechoVidrio')
-        puntos += 10;
-    else if (container.texture.key === 'contenedorOrganico' && trash.texture.key === 'desechoOrganico')
-        puntos += 10;
-    else if (container.texture.key === 'contenedorPeligroso' && trash.texture.key === 'desechoPeligroso')
-        puntos += 10;
-    else if (container.texture.key === 'contenedorGeneral' && trash.texture.key === 'desechoGeneral')
-        puntos += 10;
-    else puntos -=10;
 
+    // Log de las texturas para depuración
+    console.log("Container: " + container.texture.key + ", Trash: " + trash.texture.key);
+
+    if (container.texture.key === 'contenedorPapel' && trash.texture.key === 'desechoPapel') {
+        puntos += 10;
+    } else if (container.texture.key === 'contenedorPlastico' && trash.texture.key === 'desechoPlastico') {
+        puntos += 10;
+    } else if (container.texture.key === 'contenedorVidrio' && trash.texture.key === 'desechoVidrio') {
+        puntos += 10;
+    } else if (container.texture.key === 'contenedorOrganico' && trash.texture.key === 'desechoOrganico') {
+        puntos += 10;
+    } else if (container.texture.key === 'contenedorPeligroso' && trash.texture.key === 'desechoPeligroso') {
+        puntos += 10;
+    } else if (container.texture.key === 'contenedorGeneral' && trash.texture.key === 'desechoGeneral') {
+        puntos += 10;
+    } else {
+        puntos -= 10; // Solo se restan puntos si no hay coincidencia
+    }
+
+    // Log de puntos calculados
+    console.log("Puntos calculados: " + puntos);
     return puntos;
-
 }
+
