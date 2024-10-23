@@ -28,6 +28,8 @@ let score = 0;   // Puntuación del juego
 let scoreText;   // Texto de puntuación
 let movingRight = false;
 let movingLeft = false;
+let imagenestrash = ['desechoPapel','desechoPlastico','desechoVidrio','desechoPeligroso','desechoOrganico','desechoGeneral']; //Arreglo que guardara las imagenes para poder randomizarlas
+
 
 // Iniciar el juego
 let game = new Phaser.Game(config);
@@ -35,13 +37,23 @@ let game = new Phaser.Game(config);
 // Preload: carga los assets (gráficos) necesarios
 function preload() {
     this.load.image("background", ".//sprites/background.png");
-    this.load.image('trash', 'sprites/trash.png'); // Imagen de basura
+     
+
+    //Imagenes de los contenedores
     this.load.image('contenedorPapel', 'sprites/contenedorPapel.png'); // Contenedor de papel
     this.load.image('contenedorPlastico', 'sprites/contenedorPlastico.png'); // Contenedor de plástico
     this.load.image('contenedorVidrio', 'sprites/contenedorVidrio.png'); // Contenedor de vidrio
-    this.load.image('contenedorMetal', 'sprites/contenedorMetal.png'); // Contenedor de metal
+    this.load.image('contenedorPeligroso', 'sprites/contenedorPeligroso.png'); // Contenedor de metal
     this.load.image('contenedorOrganico', 'sprites/contenedorOrganico.png'); // Contenedor orgánico
     this.load.image('contenedorGeneral', 'sprites/contenedorGeneral.png'); // Contenedor de residuos generales
+
+    //Imagenes de los diferentes desechos
+    this.load.image('desechoPapel','sprites/desechoPapel.png')
+    this.load.image('desechoPlastico','sprites/desechoPlastico.png')
+    this.load.image('desechoVidrio','sprites/desechoVidrio.png')
+    this.load.image('desechoPeligroso','sprites/desechoPeligroso.png')
+    this.load.image('desechoOrganico','sprites/desechoOrganico.png')
+    this.load.image('desechoGeneral','sprites/desechoGeneral.png')
 }
 
 // Create: inicializa los objetos en la escena
@@ -70,10 +82,13 @@ function create() {
     containers[5] = this.physics.add.staticImage(1700, 800, 'contenedorGeneral').setDisplaySize(150, 150);
     containers[5].setSize(150, 150); // Ajustar la hitbox
 
-
+    const posicionesX = [200, 500, 800, 1100, 1400, 1700];
+    const IndicePosicionAleatorio = Phaser.Math.Between(0, posicionesX.length - 1);
+    const IndiceImagenAleatorio = Phaser.Math.Between(0, imagenestrash.length - 1);
 
     // Crear el objeto de basura
-    trash = this.physics.add.sprite(800, 50, 'trash');
+    trash = this.physics.add.sprite(posicionesX[IndicePosicionAleatorio], 50, imagenestrash[IndiceImagenAleatorio]);
+    trash.setDisplaySize(120, 120);
     trash.setCollideWorldBounds(true); // Para que no salga de la pantalla
 
     // Detectar colisiones entre la basura y los contenedores
@@ -132,16 +147,42 @@ function update() {
 
 // Función para verificar si la basura cae en el contenedor correcto
 function matchContainer(trash, container) {
+    // Sumar puntos por acierto
+    const puntosObtenidos = calcularPuntos(trash,container);
+    if(score - puntosObtenidos <0) 
+        score = score;
+    else score += puntosObtenidos;
     // Lógica para detectar si es el contenedor correcto
-    // Si la basura cae en el contenedor adecuado, aumenta la puntuación
-    // Si no, restar vida o manejarlo de alguna otra forma
-    score += 10;  // Sumar puntos por acierto
-    scoreText.setText('Puntuación: ' + score);
-
     // Volver a generar basura desde arriba después de un acierto
     trash.y = 50;
     // Array con posicione especificas
     const posicionesX = [200,500,800,1100,1400,1700]
     const IndiceAleatorio = Phaser.Math.Between(0,posicionesX.length -1); // Posición aleatoria
     trash.x = posicionesX[IndiceAleatorio];
+    const IndiceImagenAleatorio = Phaser.Math.Between(0, imagenestrash.length - 1);
+    trash.setTexture(imagenestrash[IndiceImagenAleatorio]);  // Cambiar la imagen del objeto basura
+    trash.setDisplaySize(120,120);
+     
+    if (score >= 0)
+    scoreText.setText('Puntuación: ' + score);
+}
+
+function calcularPuntos(trash,container){
+    let puntos = 0;
+    if (container.texture.key === 'contenedorPapel' && trash.texture.key === 'desechoPapel')
+        puntos += 10;
+    else if (container.texture.key === 'contenedorPlastico' && trash.texture.key === 'desechoPlastico')
+        puntos += 10;
+    else if (container.texture.key === 'contenedorVidrio' && trash.texture.key === 'desechoVidrio')
+        puntos += 10;
+    else if (container.texture.key === 'contenedorOrganico' && trash.texture.key === 'desechoOrganico')
+        puntos += 10;
+    else if (container.texture.key === 'contenedorPeligroso' && trash.texture.key === 'desechoPeligroso')
+        puntos += 10;
+    else if (container.texture.key === 'contenedorGeneral' && trash.texture.key === 'desechoGeneral')
+        puntos += 10;
+    else puntos -=10;
+
+    return puntos;
+
 }
