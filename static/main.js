@@ -64,22 +64,22 @@ function create() {
 
     // Contenedores en la parte inferior (6 en total)
     // Crear los contenedores en la parte inferior (6 en total)
-    containers[0] = this.physics.add.staticImage(200, 800, 'contenedorPapel').setDisplaySize(150, 150);
+    containers[0] = this.physics.add.staticImage(200, 800, 'contenedorPapel').setDisplaySize(260,400);
     containers[0].setSize(150, 150); // Ajustar la hitbox
 
-    containers[1] = this.physics.add.staticImage(500, 800, 'contenedorPlastico').setDisplaySize(150, 150);
+    containers[1] = this.physics.add.staticImage(500, 800, 'contenedorPlastico').setDisplaySize(260,400);
     containers[1].setSize(150, 150); // Ajustar la hitbox
 
-    containers[2] = this.physics.add.staticImage(800, 800, 'contenedorVidrio').setDisplaySize(290,290);
+    containers[2] = this.physics.add.staticImage(800, 800, 'contenedorVidrio').setDisplaySize(260,400);
     containers[2].setSize(200, 200); // Ajustar la hitbox
 
-    containers[3] = this.physics.add.staticImage(1100, 800, 'contenedorMetal').setDisplaySize(150, 150);
+    containers[3] = this.physics.add.staticImage(1100, 800, 'contenedorPeligroso').setDisplaySize(260,400);
     containers[3].setSize(150, 150); // Ajustar la hitbox
 
-    containers[4] = this.physics.add.staticImage(1400, 800, 'contenedorOrganico').setDisplaySize(150, 150);
+    containers[4] = this.physics.add.staticImage(1400, 800, 'contenedorOrganico').setDisplaySize(260,400);
     containers[4].setSize(150, 150); // Ajustar la hitbox
 
-    containers[5] = this.physics.add.staticImage(1700, 800, 'contenedorGeneral').setDisplaySize(150, 150);
+    containers[5] = this.physics.add.staticImage(1700, 800, 'contenedorGeneral').setDisplaySize(260,400);
     containers[5].setSize(150, 150); // Ajustar la hitbox
 
     const posicionesX = [200, 500, 800, 1100, 1400, 1700];
@@ -145,9 +145,10 @@ function update() {
     }
 }
 
+let canCollide = true;
 // Función para verificar si la basura cae en el contenedor correcto
 function matchContainer(trash, container) {
-   
+    if( !canCollide) return;
      // Sumar puntos por acierto
      const puntosObtenidos = calcularPuntos(trash, container);
     
@@ -173,7 +174,8 @@ function matchContainer(trash, container) {
     trash.setTexture(imagenestrash[IndiceImagenAleatorio]);
     trash.setDisplaySize(120, 120);
 
-   
+   canCollide = false;
+   setTimeout(() => {canCollide = true; }, 1000);
 }
 
 
