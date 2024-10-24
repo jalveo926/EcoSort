@@ -5,39 +5,100 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EcoSort</title>
     <link rel="stylesheet" href="styles.css">
+   
 </head>
 <body>
     
     <h1>EcoSort</h1>
 
-    <button onclick="openPopup('jugar')">Jugar</button>
-    <button onclick="openPopup('aprende')">Aprende Más</button>
-    <button onclick="openPopup('creditos')">Créditos</button>
-    
-    <div id="overlay" class="overlay" onclick="closePopup()"></div>
-    
+    <button id="openJugar" class="botonPrincipal">Jugar</button>
     <div class="popup-container">
-        <div id="jugar" class="popup">
-            <h2>Pop-up 1</h2>
-            <p>Contenido del primer pop-up.</p>
-           
+    <div id="jugar" class="principal">
+        <p>Este es el pop-up principal.</p>
+        <button id="closeJugar">Cerrar</button>
+    </div>
+    </div>
+    
+
+    <button id="openAprende" class="botonPrincipal">Aprende Más</button>
+    <div class="popup-container">
+    <div id="aprende" class="principal">
+        <h1>Tipos de Basureros</h1>
+        
+        <div class="basurero-container">
+        <button class="openBasurero" data-target="basAzul" id="azul">Basurero Azul</button>
+
+        <div class="popup-container">
+        <div id="basAzul" class="basureros">
+            <h1 id="b-Azul">Basurero Azul</h1>
+            <p>En el contenedor azul hay que depositar solo papel y cajas de cartón: envases de alimentación, calzado, productos congelados, papel de envolver, papel de uso diario, etc. Un pequeño truco para ahorrar espacio en el cubo y aumentar su capacidad es doblar y comprimir los envases en vez de arrugarlos.</p>
+            <button class="closeBasurero">X</button>
+        </div>
         </div>
     
-        <div id="aprende" class="popup">
-            <p>Aprende Más</p>
-           
+        <button class="openBasurero" data-target="basRojo" id="rojo">Basurero Rojo</button>
+        <div class="popup-container">
+        <div id="basRojo" class="basureros">
+            <h1 id="b-Rojo">Basurero Rojo</h1>
+            <p>El contenedor rojo es más especial, no se suele encontrar en los núcleos urbanos con frecuencia, y es el destinado a contener residuos tóxicos y peligrosos, como desechos hospitalarios o baterías. Cuando se habla del contenedor de color rojo, principalmente se están hablando de desechos peligrosos. Entre los desechos que se incluyen en esta categoría se encuentran: desechos hospitalarios, baterías, pilas, insecticidas, aerosoles, aceites o productos tecnológicos. </p>
+            <button class="closeBasurero">X</button>
         </div>
-    
-        <div id="creditos" class="popup">
-            
-            <p class="creditos-text">Universidad Tecnológica de Panamá</p> <br>
-            <p class="creditos-text">Jesús Alveo</p>
-            <p class="creditos-text">José Muñoz</p>
-            <p class="creditos-text">Roniel Quintero</p>
-            <p class="creditos-text">Jessica Zheng</p>
-            <p class="creditos-text">Jorges Torres</p>
-           
         </div>
+
+        <button class="openBasurero" data-target="basVerde" id="verde">Basurero Verde</button>
+        <div class="popup-container">
+        <div id="basVerde" class="basureros">
+            <h1 id="b-Verde">Basurero Verde</h1>
+            <p>El contenedor verde, también conocido como iglú verde, es el destinado para depositar vidrio. En esta categoría deben reciclarse las botellas de vidrio, tarros, trozos de espejos y cristales rotos, entre otros. En esta categoría no entran los materiales como la cerámica o la porcelana, tampoco hay que depositar metales ni plásticos. Antes de tirar una botella o tarro de vidrio al contenedor verde hay que quitarle el tapón y reciclarlo en el contenedor correspondiente según sea de metal, de plástico o de corcho. </p>
+            <button class="closeBasurero">X</button>
+        </div>
+        </div>
+
+        <button class="openBasurero" data-target="basAmarillo" id="amarillo">Basurero Amarillo</button>
+        <div class="popup-container">
+        <div id="basAmarillo" class="basureros">
+            <h1 id="b-Amarillo">Basurero Amarillo</h1>
+            <p>El contenedor amarillo es el adecuado para reciclar plásticos, latas y envases. En este tipo de contenedores se debe almacenar todo material que esté hecho a base de plástico. Como botellas de plástico, envases de alimentos, bolsas de plástico, briks de leche, etc. También las latas de conserva y de refrescos deben depositarse en el contenedor amarillo. </p>
+            <button class="closeBasurero">X</button>
+        </div>
+        </div>
+
+        <button class="openBasurero" data-target="basNaranja" id="naranja">Basurero Naranja</button>
+        <div class="popup-container">
+        <div id="basNaranja" class="basureros">
+            <h1 id="b-Naranja">Basurero Naranja</h1>
+            <p>El contenedor naranja sirve para reciclar restos orgánicos. Estos se utilizan exclusivamente para el almacenamiento de materia orgánica y en caso de no disponer de este contenedor debe utilizarse el contenedor gris.</p>
+            <button class="closeBasurero">X</button>
+        </div>
+        </div>
+
+        <button class="openBasurero" data-target="basGris" id="gris">Basurero Gris</button>
+        <div class="popup-container">
+        <div id="basGris" class="basureros">
+            <h1 id="b-Gris">Basurero Gris</h1>
+            <p>El contenedor gris es el destinado a contener la basura doméstica y residuos que no encajan en las otras categorías. También se utiliza para depositar los residuos orgánicos cuando no hay un contenedor naranja disponible.</p>
+            <button class="closeBasurero">X</button>
+        </div>
+        </div>
+    </div>
+
+        <button id="closeAprende">Cerrar</button>
+    </div>
+    </div>
+
+    <button id="openCreditos" class="botonPrincipal">Créditos</button>
+    <div class="popup-container">
+    <div id="creditos" class="principal">
+
+        <p class="creditos-text">Universidad Tecnológica de Panamá</p> <br>
+        <p class="creditos-text">Jesús Alveo</p>
+        <p class="creditos-text">José Muñoz</p>
+        <p class="creditos-text">Roniel Quintero</p>
+        <p class="creditos-text">Jessica Zheng</p>
+        <p class="creditos-text">Jorge Torres</p>
+
+        <button id="closeCreditos">Cerrar</button>
+    </div>
     </div>
 
     <script src="script.js"></script>
