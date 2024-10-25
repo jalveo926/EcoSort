@@ -38,6 +38,8 @@ let game = new Phaser.Game(config);
 function preload() {
     this.load.image("background", ".//sprites/background.png");
      
+    //Imagen del boton regresar
+    this.load.image('regresar', 'sprites/regresar.png');
 
     //Imagenes de los contenedores
     this.load.image('contenedorPapel', 'sprites/contenedorPapel.png'); // Contenedor de papel
@@ -48,17 +50,26 @@ function preload() {
     this.load.image('contenedorGeneral', 'sprites/contenedorGeneral.png'); // Contenedor de residuos generales
 
     //Imagenes de los diferentes desechos
-    this.load.image('desechoPapel','sprites/desechoPapel.png')
-    this.load.image('desechoPlastico','sprites/desechoPlastico.png')
-    this.load.image('desechoVidrio','sprites/desechoVidrio.png')
-    this.load.image('desechoPeligroso','sprites/desechoPeligroso.png')
-    this.load.image('desechoOrganico','sprites/desechoOrganico.png')
-    this.load.image('desechoGeneral','sprites/desechoGeneral.png')
+    this.load.image('desechoPapel','sprites/desechoPapel.png') // Desecho de papel
+    this.load.image('desechoPlastico','sprites/desechoPlastico.png') // Desecho de plástico
+    this.load.image('desechoVidrio','sprites/desechoVidrio.png') // Desecho de vidrio
+    this.load.image('desechoPeligroso','sprites/desechoPeligroso.png') // Desecho de peligros
+    this.load.image('desechoOrganico','sprites/desechoOrganico.png') // Desecho de materia organica
+    this.load.image('desechoGeneral','sprites/desechoGeneral.png') // Desechos en general
 }
 
 // Create: inicializa los objetos en la escena
 function create() {
     
+        // Crear botón interactivo en la parte superior derecha
+    const button = this.add.image(1800, 70, 'regresar').setInteractive().setDisplaySize(100, 50);
+    
+    button.on('pointerdown', () => {
+        // Redirigir a la página principal
+        window.location.href = "/Interfaz-principal/EcoSort.html";
+    });
+
+
     // Fondo centrado en la parte superior, la imagen esta en comentario porque ocupa mucho espacio por ahora
     //this.add.image(0,0, "background"); 
 
