@@ -154,6 +154,7 @@ h1 {
 
 .creditos-text {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 24px;
 }
 
 /*Color de los subtítulos dentro de los botones de los basureros*/
@@ -182,13 +183,62 @@ h1 {
 
 .closeBasurero {
     font-size: 25px;
+    color: #000000;
     font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    display: flex;
-    background-color: rgb(224, 208, 168);
-    border-color: rgb(255, 27, 27);
-    border-radius: 50%;
+    display: flex; 
+    background-color:rgb(254, 241, 100);
+    border-color: rgb(255, 255, 255);
+    border-radius: 35%;
+    position: fixed;
+    top: 20px;
+    right: 20px;
 }
 
 .closeBasurero:hover {
-    background-color: crimson;
+    background-color: rgb(255, 225, 103);
+}
+ 
+#creditos {
+    background-color: rgb(217, 229, 237);
+    border: 7px solid rgb(252, 248, 176);
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 2px 5px rgba(189, 189, 189, 0.522);
+}
+
+.TypeB {
+    display: flex;
+    align-items: center;
+    margin-right: 50px;
+}
+
+#papel {
+    margin-right: 15px;
+}
+
+#closeCreditos {
+    font-size: 15px;
+    background-color: rgb(245, 226, 151);
+    border: 2px solid rgb(205, 205, 205);
+    border-radius: 5px;
+    padding: 5px;
+}
+
+#closeCreditos:hover {
+    background-color: rgb(255, 225, 103);
+}
+
+#closeAprende {
+    font-size: 15px;
+    background-color: rgb(245, 226, 151);
+    border: 2px solid rgb(205, 205, 205);
+    border-radius: 5px;
+    padding: 5px;
+    bottom: 15px;
+    left: 50vh;
+}
+
+#closeAprende:hover {
+    background-color: rgb(255, 225, 103);
+
 }
