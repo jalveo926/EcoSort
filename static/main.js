@@ -11,7 +11,7 @@ var config = {
     physics: {
         default: 'arcade', //Tipo de fisica a usar
         arcade: {
-            gravity: { y: 500 }, // Gravedad para que los desechos caigan
+            gravity: { y: 300 }, // Gravedad para que los desechos caigan
             debug: true // Me permite ver la hitbox de los objetos 
         }
     },
@@ -94,7 +94,8 @@ function create() {
     // Crear el objeto de basura
     trash = this.physics.add.sprite(posicionesX[IndicePosicionAleatorio], 50, imagenestrash[IndiceImagenAleatorio]);
     trash.setDisplaySize(120, 120);
-    trash.setSize(10,10);
+    trash.setSize(80,80);
+    trash.setVelocityY(400);
     trash.setCollideWorldBounds(true); // Para que no salga de la pantalla
 
     // Detectar colisiones entre la basura y los contenedores
@@ -108,9 +109,13 @@ function create() {
     // Mostrar la puntuación en pantalla
     scoreText = this.add.text(16, 16, 'Puntuación: 0', { fontSize: '32px', fill: '#fff' });
 }
-
+var puedeApretarAbajo= true;
+var velocidad =600;
 // Update: se ejecuta en cada frame, maneja las interacciones
 function update() {
+
+    trash.setDisplaySize(120, 120);
+    trash.setSize(80,80);
     // Mover la basura a la derecha
     if (cursors.right.isDown && !movingRight) {
         movingRight = true; // Establece que ya se ha movido a la derecha
@@ -146,8 +151,11 @@ function update() {
     }
 
     // Hacer que la basura baje más rápido cuando presionas la tecla abajo
-    if (cursors.down.isDown) {
-        trash.setVelocityY(300);  // Acelerar la caída
+    if (cursors.down.isDown && puedeApretarAbajo) {
+        trash.setVelocityY(velocidad + 300); // Aumenta la velocidad solo una vez
+        puedeApretarAbajo = false;
+    } else if (!cursors.down.isDown) {
+        puedeApretarAbajo = true; // Permitir volver a presionar hacia abajo
     }
 }
 
@@ -179,7 +187,7 @@ function matchContainer(trash, container) {
     const IndiceImagenAleatorio = Phaser.Math.Between(0, imagenestrash.length - 1);
     trash.setTexture(imagenestrash[IndiceImagenAleatorio]);
     trash.setDisplaySize(120, 120);
-    trash.setSize(10,10);
+    trash.setSize(80,80);
 
    canCollide = false;
    setTimeout(() => {canCollide = true; }, 1000);
