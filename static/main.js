@@ -1,16 +1,18 @@
 // Configuración básica de Phaser
-const config = {
+
+var config = {
     type: Phaser.AUTO,
     scale: {
-        mode: Phaser.Scale.RESIZE, // Cambia a RESIZE para que no esté centrado verticalmente
-        width: 1920,
-        height: 1080,
+        mode: Phaser.Scale.FIT, // Cambia a FIT para que se reescale automaticamente en cualquier dispositivo
+        autoCenter: Phaser.Scale.autoCenter,
+        width: 1920, //ancho de pantalla
+        height: 1080, // alto de pantalla
     },
     physics: {
-        default: 'arcade',
+        default: 'arcade', //Tipo de fisica a usar
         arcade: {
-            gravity: { y: 500 }, // Gravedad para que los desechos caigan
-            debug: false
+            gravity: { y: 300 }, // Gravedad para que los desechos caigan
+            debug: true // Me permite ver la hitbox de los objetos 
         }
     },
     scene: {
@@ -62,9 +64,9 @@ function preload() {
 function create() {
     
         // Crear botón interactivo en la parte superior derecha
-    const button = this.add.image(1800, 70, 'regresar').setInteractive().setDisplaySize(100, 50);
+    const volver = this.add.image(1800, 70, 'regresar').setInteractive().setDisplaySize(100, 80);
     
-    button.on('pointerdown', () => {
+    volver.on('pointerdown', () => {
         // Redirigir a la página principal
         window.location.href = "/Interfaz-principal/EcoSort.html";
     });
@@ -75,23 +77,15 @@ function create() {
 
     // Contenedores en la parte inferior (6 en total)
     // Crear los contenedores en la parte inferior (6 en total)
-    containers[0] = this.physics.add.staticImage(200, 800, 'contenedorPapel').setDisplaySize(260,400);
-    containers[0].setSize(150, 150); // Ajustar la hitbox
+    containers[0] = this.physics.add.staticImage(200, 870, 'contenedorPapel').setDisplaySize(260,400);
+    
 
-    containers[1] = this.physics.add.staticImage(500, 800, 'contenedorPlastico').setDisplaySize(260,400);
-    containers[1].setSize(150, 150); // Ajustar la hitbox
-
-    containers[2] = this.physics.add.staticImage(800, 800, 'contenedorVidrio').setDisplaySize(260,400);
-    containers[2].setSize(200, 200); // Ajustar la hitbox
-
-    containers[3] = this.physics.add.staticImage(1100, 800, 'contenedorPeligroso').setDisplaySize(260,400);
-    containers[3].setSize(150, 150); // Ajustar la hitbox
-
-    containers[4] = this.physics.add.staticImage(1400, 800, 'contenedorOrganico').setDisplaySize(260,400);
-    containers[4].setSize(150, 150); // Ajustar la hitbox
-
-    containers[5] = this.physics.add.staticImage(1700, 800, 'contenedorGeneral').setDisplaySize(260,400);
-    containers[5].setSize(150, 150); // Ajustar la hitbox
+    containers[1] = this.physics.add.staticImage(500, 870, 'contenedorPlastico').setDisplaySize(260,400);
+    containers[2] = this.physics.add.staticImage(800, 870, 'contenedorVidrio').setDisplaySize(260,400);
+    containers[3] = this.physics.add.staticImage(1100, 870, 'contenedorPeligroso').setDisplaySize(260,400);
+    containers[4] = this.physics.add.staticImage(1400, 870, 'contenedorOrganico').setDisplaySize(260,400);
+    containers[5] = this.physics.add.staticImage(1700, 870, 'contenedorGeneral').setDisplaySize(260,400);
+    
 
     const posicionesX = [200, 500, 800, 1100, 1400, 1700];
     const IndicePosicionAleatorio = Phaser.Math.Between(0, posicionesX.length - 1);
@@ -100,6 +94,8 @@ function create() {
     // Crear el objeto de basura
     trash = this.physics.add.sprite(posicionesX[IndicePosicionAleatorio], 50, imagenestrash[IndiceImagenAleatorio]);
     trash.setDisplaySize(120, 120);
+    trash.setSize(80,80);
+    trash.setVelocityY(400);
     trash.setCollideWorldBounds(true); // Para que no salga de la pantalla
 
     // Detectar colisiones entre la basura y los contenedores
@@ -113,9 +109,13 @@ function create() {
     // Mostrar la puntuación en pantalla
     scoreText = this.add.text(16, 16, 'Puntuación: 0', { fontSize: '32px', fill: '#fff' });
 }
-
+var puedeApretarAbajo= true;
+var velocidad =600;
 // Update: se ejecuta en cada frame, maneja las interacciones
 function update() {
+
+    trash.setDisplaySize(120, 120);
+    trash.setSize(80,80);
     // Mover la basura a la derecha
     if (cursors.right.isDown && !movingRight) {
         movingRight = true; // Establece que ya se ha movido a la derecha
@@ -151,8 +151,11 @@ function update() {
     }
 
     // Hacer que la basura baje más rápido cuando presionas la tecla abajo
-    if (cursors.down.isDown) {
-        trash.setVelocityY(300);  // Acelerar la caída
+    if (cursors.down.isDown && puedeApretarAbajo) {
+        trash.setVelocityY(velocidad + 300); // Aumenta la velocidad solo una vez
+        puedeApretarAbajo = false;
+    } else if (!cursors.down.isDown) {
+        puedeApretarAbajo = true; // Permitir volver a presionar hacia abajo
     }
 }
 
@@ -184,6 +187,7 @@ function matchContainer(trash, container) {
     const IndiceImagenAleatorio = Phaser.Math.Between(0, imagenestrash.length - 1);
     trash.setTexture(imagenestrash[IndiceImagenAleatorio]);
     trash.setDisplaySize(120, 120);
+    trash.setSize(80,80);
 
    canCollide = false;
    setTimeout(() => {canCollide = true; }, 1000);
