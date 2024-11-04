@@ -14,24 +14,26 @@ body {
     background-color: #f99058; 
     color: white; /* Color del texto */
     border: none; /* Sin borde */
-    padding: 10px 20px; /* Espaciado */
+    padding: 2rem, 4rem; /* Espaciado */
     text-align: center; /* Centrar texto */
     text-decoration: none; /* Sin subrayado */
     display: block; /* Mostrar como bloque en línea */
-    margin: 15px 0; /* Margen */
+    margin: 1rem 0; /* Margen */
     cursor: pointer; /* Cambiar cursor */
-    border-radius: 5px; /* Bordes redondeados */
+    border-radius: 0.5rem; /* Bordes redondeados */
     transition: background-color 0.3s; /* Transición */
-    height: 100px;
-    width: 350px;
-    font-size: 35px;
+    height: 15%;
+    width: 80%;
+    max-width: 370px;
+    max-height: 110px;
+    font-size: 2.5rem;
 }
 
 /*diseño de los pop ups principales*/
 .principal {
     display: none;
     border: 1px solid #ccc;
-    padding: 20px;
+    padding: 2rem;
     background-color: rgb(255, 255, 255);
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.447);
     text-align: center;
@@ -40,7 +42,7 @@ body {
 /*diseño de los pop ups de los basureros*/
 .basureros {
     display: none;
-    padding: 30px;
+    padding: 2rem;
     background-color: rgb(255, 255, 255);
     box-shadow: 0 2px 10px rgba(198, 193, 193, 0.522);
     text-align: justify;
@@ -50,10 +52,12 @@ body {
     position: fixed;
     left: 50%;
     top: 50%;
-    width: 90vh;
-    height: 50vh;
-    border-radius: 15px;
+    width: 42rem;
+    height: 52vh;
+    border-radius: 1rem;
 }
+
+
 
 /*diseño botones de los basureros*/
 #azul {
@@ -77,25 +81,25 @@ body {
 }
 
 #gris {
-    background-color: rgb(177, 172, 172);
+    background-color: rgb(152, 146, 146);
 }
 
 .openBasurero {
     color: white; /* Color del texto */
     border: none; /* Sin borde */
-    padding: 10px 20px; /* Espaciado */
+    padding: 3rem, 3rem; /* Espaciado */
     text-align: center; /* Centrar texto */
     text-decoration: none; /* Sin subrayado */
     display: block; /* Mostrar como bloque en línea */
-    margin: 15px 0; /* Margen */
+    margin: 1rem 0; /* Margen */
     cursor: pointer; /* Cambiar cursor */
-    border-radius: 5px; /* Bordes redondeados */
+    border-radius: 0.5rem; /* Bordes redondeados */
     transition: background-color 0.3s; /* Transición */
-    font-size: 25px;
+    font-size: 1.6rem;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-weight: 600;
-    height: 100px;
-    width: 200px;
+    height: 7rem;
+    width: 12.5rem;
 }
 
 /*posición del pop up*/
@@ -115,16 +119,15 @@ button:hover {
     background-color: #ee6f2b; 
 }
 
-
 /*pop up de aprende*/
 #aprende {
-    width: 100vh;
+    width: 106%;
     height: 60vh;
     background-color: rgb(217, 229, 237); 
     border: 5px solid rgb(216, 227, 236);
-    padding: 20px;
+    padding: 2rem;
     box-shadow: azure;
-    border-radius: 15px;
+    border-radius: 1rem;
     box-shadow: 0 2px 5px rgba(189, 189, 189, 0.522);
 }
 
@@ -132,17 +135,16 @@ button:hover {
     background-color: rgb(255, 255, 255);
 }
 
-
 .basurero-container {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 10px;
+    gap: 20px;
     justify-items: center;
     align-items: center;
 }
 
 p {
-    font-size: 20px;
+    font-size: 1.25rem;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
 
 }
@@ -154,7 +156,7 @@ h1 {
 
 .creditos-text {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    font-size: 24px;
+    font-size: 1.5rem;
 }
 
 /*Color de los subtítulos dentro de los botones de los basureros*/
@@ -178,11 +180,11 @@ h1 {
     color: rgb(237, 173, 100);
 }
 #b-Gris {
-    color: rgb(190, 190, 190);
+    color: rgb(152, 146, 146);
 }
 
 .closeBasurero {
-    font-size: 25px;
+    font-size: 1.5rem;
     color: #000000;
     font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     display: flex; 
@@ -190,8 +192,8 @@ h1 {
     border-color: rgb(255, 255, 255);
     border-radius: 35%;
     position: fixed;
-    top: 20px;
-    right: 20px;
+    top: 0.8rem;
+    right: 0.8rem;
 }
 
 .closeBasurero:hover {
@@ -201,8 +203,8 @@ h1 {
 #creditos {
     background-color: rgb(217, 229, 237);
     border: 7px solid rgb(252, 248, 176);
-    padding: 25px;
-    border-radius: 15px;
+    padding: 1rem;
+    border-radius: 1rem;
     box-shadow: 0 2px 5px rgba(189, 189, 189, 0.522);
 }
 
@@ -217,11 +219,11 @@ h1 {
 }
 
 #closeCreditos {
-    font-size: 15px;
+    font-size: 0.9rem;
     background-color: rgb(245, 226, 151);
-    border: 2px solid rgb(205, 205, 205);
-    border-radius: 5px;
-    padding: 5px;
+    border: 0.1rem solid rgb(205, 205, 205);
+    border-radius: 0.5rem;
+    padding: 0.4rem;
 }
 
 #closeCreditos:hover {
@@ -229,16 +231,19 @@ h1 {
 }
 
 #closeAprende {
-    font-size: 15px;
-    background-color: rgb(245, 226, 151);
-    border: 2px solid rgb(205, 205, 205);
-    border-radius: 5px;
-    padding: 5px;
-    bottom: 15px;
-    left: 50vh;
+    font-size: 1.1rem;
+    background-color: rgb(242, 245, 221); 
+    border-radius: 0.5rem;
+    border: 0.1rem solid rgb(205, 205, 205);
+    height: 1.9rem;
+    width: 5rem;
+    margin-top: 1.5rem; /* Ajusta el espacio superior */
+    margin-left: auto; /* Empuja el botón a la derecha */
+    margin-right: auto; /* Empuja el botón a la izquierda para centrar */
+    display: block; /* Necesario para aplicar márgenes de bloque */
 }
 
 #closeAprende:hover {
-    background-color: rgb(255, 225, 103);
-
+    background-color: rgb(219, 221, 208);
 }
+
