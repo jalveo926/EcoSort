@@ -156,7 +156,7 @@ function update() {
         puedeApretarAbajo = false;
     } else if (!cursors.down.isDown) {
         puedeApretarAbajo = true; // Permitir volver a presionar hacia abajo
-        trash.setVelocityY(velocidad + 300); // Reestablece la velocidad al soltar la tecla abajo
+        trash.setVelocityY(velocidad - 300); // Reestablece la velocidad al soltar la tecla abajo
     }
 }
 
