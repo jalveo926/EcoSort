@@ -23,6 +23,7 @@ var config = {
 };
 
 // Variables globales
+let pauseMenu, resumeButton, mainMenuButton, restartButton;
 let trash;       // Objeto de desecho
 let cursors;     // Teclas para mover los desechos
 let containers = [];  // Array para almacenar los contenedores
@@ -40,8 +41,8 @@ let game = new Phaser.Game(config);
 function preload() {
     this.load.image("background", ".//sprites/background.png");
      
-    //Imagen del boton regresar
-    this.load.image('regresar', 'sprites/regresar.png');
+    //Imagen del boton de pausa
+    this.load.image('pausa', 'sprites/pausa.png');
 
     //Imagenes de los contenedores
     this.load.image('contenedorPapel', 'sprites/contenedorPapel.png'); // Contenedor de papel
@@ -63,17 +64,17 @@ function preload() {
 // Create: inicializa los objetos en la escena
 function create() {
     
-        // Crear botón interactivo en la parte superior derecha
+    /*    // Crear botón interactivo en la parte superior derecha
     const volver = this.add.image(1800, 70, 'regresar').setInteractive().setDisplaySize(100, 80);
     
     volver.on('pointerdown', () => {
         // Redirigir a la página principal
         window.location.href = "/Interfaz-principal/EcoSort.html";
-    });
+    });*/
 
 
     // Fondo centrado en la parte superior, la imagen esta en comentario porque ocupa mucho espacio por ahora
-    //this.add.image(0,0, "background"); 
+    this.add.image(0,0, "background"); 
 
     // Contenedores en la parte inferior (6 en total)
     // Crear los contenedores en la parte inferior (6 en total)
@@ -108,9 +109,142 @@ function create() {
 
     // Mostrar la puntuación en pantalla
     scoreText = this.add.text(16, 16, 'Puntuación: 0', { fontSize: '32px', fill: '#fff' });
+
+
+
+
+// Crear el botón de pausa en la esquina superior derecha
+pauseButton = this.add.image(1820, 80, 'pausa')
+.setDisplaySize(80, 80)
+.setOrigin(0.5)
+.setInteractive()
+.setDepth(10)  // Asegura que esté sobre todos los demás elementos
+.on('pointerdown', () => {
+    if (this.scene.isPaused()) {
+        pauseMenu.setVisible(false);
+        this.scene.resume();
+    } else {
+        pauseMenu.setVisible(true);
+        this.scene.pause();
+    }
+}); 
+
+// Crear el menú de pausa (inicialmente oculto)
+pauseMenu = this.add.group();
+
+// Fondo semitransparente
+let background = this.add.rectangle(950, 500, 550, 350, 0x000000, 0.5)
+.setDepth(9);  // Fondo del menú en un nivel alto
+pauseMenu.add(background);
+
+// Botón de Reanudar
+resumeButton = this.add.text(950, 420, 'Reanudar', { fontSize: '32px', fill: '#FFF' })
+.setOrigin(0.5)
+.setInteractive()
+.setDepth(100)  // Nivel superior
+.on('pointerdown', () => {
+    pauseMenu.setVisible(false);
+    this.scene.resume();  // Reanuda la escena
+});
+pauseMenu.add(resumeButton);
+
+// Botón de Reiniciar Nivel
+restartButton = this.add.text(950, 500, 'Reiniciar Nivel', { fontSize: '32px', fill: '#FFF' })
+.setOrigin(0.5)
+.setInteractive()
+.setDepth(100)
+.on('pointerdown', () => {
+    this.scene.reload();  // Reinicia el nivel actual
+});
+pauseMenu.add(restartButton);
+
+// Botón de Regresar al menú principal
+mainMenuButton = this.add.text(950, 580, 'Menú Principal', { fontSize: '32px', fill: '#FFF' })
+.setOrigin(0.5)
+.setInteractive()
+.setDepth(100)
+.on('pointerdown', () => {
+    console.log("Botón de Menú Principal clickeado");
+    this.scene.stop();  // Detiene el nivel actual
+    //this.scene.start('MainMenu');  // Cambia a la escena del menú principal
+    window.location.href = 'Interfaz-principal/EcoSort.html';  // Redirige a la URL deseada
+});
+pauseMenu.add(mainMenuButton);
+
+// Oculta el menú de pausa al inicio
+pauseMenu.setVisible(false);
+
+// Detecta tecla de pausa (Ej. tecla P)
+this.input.keyboard.on('keydown-ESC', () => {
+if (this.scene.isPaused()) {
+    pauseMenu.setVisible(false);
+    this.scene.resume();
+} else {
+    pauseMenu.setVisible(true);
+    this.scene.pause();
+}
+});
+
+/*
+// Create a label to use as a button
+pause_label = this.add.image(1820, 80, 'pausa').setDisplaySize(80, 80);
+pause_label.inputEnabled = true;
+pause_label.events.onInputUp.add(function () {
+    // When the paus button is pressed, we pause the game
+    game.paused = true;
+
+    // Then add the menu
+    menu = game.add.sprite(w/2, h/2, 'pausa');
+    menu.anchor.setTo(0.5, 0.5);
+
+    // And a label to illustrate which menu item was chosen. (This is not necessary)
+    choiseLabel = game.add.text(w/2, h-150, 'Click outside menu to continue', { font: '30px Arial', fill: '#fff' });
+    choiseLabel.anchor.setTo(0.5, 0.5);
+});
+
+// Add a input listener that can help us return from being paused
+game.input.onDown.add(unpause, self);
+
+// And finally the method that handels the pause menu
+function unpause(event){
+    // Only act if paused
+    if(game.paused){
+        // Calculate the corners of the menu
+        var x1 = w/2 - 270/2, x2 = w/2 + 270/2,
+            y1 = h/2 - 180/2, y2 = h/2 + 180/2;
+
+        // Check if the click was inside the menu
+        if(event.x > x1 && event.x < x2 && event.y > y1 && event.y < y2 ){
+            // The choicemap is an array that will help us see which item was clicked
+            var choisemap = ['one', 'two', 'three', 'four', 'five', 'six'];
+
+            // Get menu local coordinates for the click
+            var x = event.x - x1,
+                y = event.y - y1;
+
+            // Calculate the choice 
+            var choise = Math.floor(x / 90) + 3*Math.floor(y / 90);
+
+            // Display the choice
+            choiseLabel.text = 'You chose menu item: ' + choisemap[choise];
+        }
+        else{
+            // Remove the menu and the label
+            menu.destroy();
+            choiseLabel.destroy();
+
+            // Unpause the game
+            game.paused = false;
+        }
+    }
+}
+*/
+
 }
 var puedeApretarAbajo= true;
 var velocidad =600;
+
+
 // Update: se ejecuta en cada frame, maneja las interacciones
 function update() {
 
@@ -161,6 +295,7 @@ function update() {
 }
 
 let canCollide = true;
+
 // Función para verificar si la basura cae en el contenedor correcto
 function matchContainer(trash, container) {
     if( !canCollide) return;
@@ -193,7 +328,6 @@ function matchContainer(trash, container) {
    canCollide = false;
    setTimeout(() => {canCollide = true; }, 1000);
 }
-
 
 function calcularPuntos(trash, container) {
     let puntos = 0;
