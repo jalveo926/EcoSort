@@ -211,12 +211,21 @@ h1 {
 .TypeB {
     display: flex;
     align-items: center;
-    margin-right: 50px;
+    justify-content: center;
+    margin-right: 70px;
 }
 
-#papel {
-    margin-right: 15px;
+#a1{
+    margin-right: 1rem;
+    margin-left: 5rem;
+
 }
+
+#a2 {
+    margin-right: 1rem;
+}
+
+
 
 #closeCreditos {
     font-size: 0.9rem;
