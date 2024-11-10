@@ -119,12 +119,12 @@ function create() {
 pauseMenu = this.add.group();
 
 // Fondo semitransparente
-let background = this.add.rectangle(1800, 500, 550, 350, 0x000000, 0.5)
+let background = this.add.rectangle(1800, 270, 400, 250, 0x000000, 0.5)
 .setDepth(9);  // Fondo del menú en un nivel alto
 pauseMenu.add(background);
 
 // Botón de Reanudar
-resumeButton = this.add.text(1750, 420, 'Reanudar', { fontSize: '32px', fill: '#FFF' })
+resumeButton = this.add.text(1770, 220, 'Reanudar', { fontSize: '32px', fill: '#FFF' })
 .setOrigin(0.5)
 .setInteractive()
 .setDepth(100)  // Nivel superior
@@ -135,7 +135,7 @@ resumeButton = this.add.text(1750, 420, 'Reanudar', { fontSize: '32px', fill: '#
 pauseMenu.add(resumeButton);
 
 // Botón de Reiniciar Nivel
-restartButton = this.add.text(1750, 500, 'Reiniciar Nivel', { fontSize: '32px', fill: '#FFF' })
+restartButton = this.add.text(1760, 270, 'Reiniciar Nivel', { fontSize: '32px', fill: '#FFF' })
 .setOrigin(0.5)
 .setInteractive()
 .setDepth(100)
@@ -147,7 +147,7 @@ restartButton = this.add.text(1750, 500, 'Reiniciar Nivel', { fontSize: '32px', 
 pauseMenu.add(restartButton);
 
 // Botón de Regresar al menú principal
-mainMenuButton = this.add.text(1750, 580, 'Menú Principal', { fontSize: '32px', fill: '#FFF' })
+mainMenuButton = this.add.text(1770, 330, 'Menú Principal', { fontSize: '32px', fill: '#FFF' })
 .setOrigin(0.5)
 .setInteractive()
 .setDepth(100)
