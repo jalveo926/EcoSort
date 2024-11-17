@@ -70,8 +70,8 @@ function preload() {
 function create() {
 
     // Fondo centrado en la parte superior, la imagen esta en comentario porque ocupa mucho espacio por ahora
-    this.add.image(0,0, "background"); 
-
+    const fondo = this.add.image(0,0, "background").setOrigin(0); 
+    fondo.setDisplaySize(this.scale.width, this.scale.height);
     // Contenedores en la parte inferior (6 en total)
     // Crear los contenedores en la parte inferior (6 en total)
     containers[0] = this.physics.add.staticImage(200, 870, 'contenedorPapel').setDisplaySize(260,400);
