@@ -178,8 +178,8 @@ var velocidad =600;
 // Update: se ejecuta en cada frame, maneja las interacciones
 function update() {
 
-    trash.setDisplaySize(120, 120);
-    trash.setSize(80,80);
+    trash.setDisplaySize(170, 170);
+    trash.setSize(100,100);
     // Mover la basura a la derecha
     if (cursors.right.isDown && !movingRight) {
         movingRight = true; // Establece que ya se ha movido a la derecha
