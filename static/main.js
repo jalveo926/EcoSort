@@ -32,6 +32,10 @@ let score = 0;   // Puntuación del juego
 let scoreText;   // Texto de puntuación
 let movingRight = false;
 let movingLeft = false;
+let canCollide = true;
+var puedeApretarAbajo= true;
+var velocidad =600;
+const posicionesX = [200, 500, 800, 1100, 1400, 1700];
 let imagenestrash = ['desechoPapel','desechoPlastico','desechoVidrio','desechoPeligroso','desechoOrganico','desechoGeneral']; //Arreglo que guardara las imagenes para poder randomizarlas
 
 
@@ -77,7 +81,7 @@ function create() {
     containers[4] = this.physics.add.staticImage(1400, 870, 'contenedorOrganico').setDisplaySize(260,400);
     containers[5] = this.physics.add.staticImage(1700, 870, 'contenedorGeneral').setDisplaySize(260,400);
     
-    const posicionesX = [200, 500, 800, 1100, 1400, 1700];
+    
     const IndicePosicionAleatorio = Phaser.Math.Between(0, posicionesX.length - 1);
     const IndiceImagenAleatorio = Phaser.Math.Between(0, imagenestrash.length - 1);
 
@@ -171,69 +175,75 @@ if (this.scene.isPaused()) {
 });
 
 }
-var puedeApretarAbajo= true;
-var velocidad =600;
+
 
 
 // Update: se ejecuta en cada frame, maneja las interacciones
 function update() {
-
     trash.setDisplaySize(170, 170);
-    trash.setSize(100,100);
-    // Mover la basura a la derecha
-    if (cursors.right.isDown && !movingRight) {
-        movingRight = true; // Establece que ya se ha movido a la derecha
-        if (trash.x >= 200 && trash.x < 500)
-            trash.x = 500; 
-        else if (trash.x >= 500 && trash.x < 800)
-            trash.x = 800;
-        else if (trash.x >= 800 && trash.x < 1100)
-            trash.x = 1100;
-        else if (trash.x >= 1100 && trash.x < 1400)
-            trash.x = 1400;
-        else if (trash.x >= 1400 && trash.x < 1700)
-            trash.x = 1700;
-    } else if (cursors.right.isUp) {
-        movingRight = false; // Resetea el estado cuando la tecla se suelta
+    trash.setSize(100, 100);
+
+    // Solo permite movimiento si las teclas están habilitadas
+    if (cursors.right.enabled) {
+        // Mover la basura a la derecha
+        if (cursors.right.isDown && !movingRight) {
+            movingRight = true; // Establece que ya se ha movido a la derecha
+            if (trash.x >= 200 && trash.x < 500)
+                trash.x = 500;
+            else if (trash.x >= 500 && trash.x < 800)
+                trash.x = 800;
+            else if (trash.x >= 800 && trash.x < 1100)
+                trash.x = 1100;
+            else if (trash.x >= 1100 && trash.x < 1400)
+                trash.x = 1400;
+            else if (trash.x >= 1400 && trash.x < 1700)
+                trash.x = 1700;
+        } else if (cursors.right.isUp) {
+            movingRight = false; // Resetea el estado cuando la tecla se suelta
+        }
     }
 
-    // Mover la basura a la izquierda
-    if (cursors.left.isDown && !movingLeft) {
-        movingLeft = true; // Establece que ya se ha movido a la izquierda
-        if (trash.x <= 1700 && trash.x > 1400)
-            trash.x = 1400; 
-        else if (trash.x <= 1400 && trash.x > 1100)
-            trash.x = 1100; 
-        else if (trash.x <= 1100 && trash.x > 800)
-            trash.x = 800;
-        else if (trash.x <= 800 && trash.x > 500)
-            trash.x = 500;
-        else if (trash.x <= 500 && trash.x > 200)
-            trash.x = 200;
-    } else if (cursors.left.isUp) {
-        movingLeft = false; // Resetea el estado cuando la tecla se suelta
+    if (cursors.left.enabled) {
+        // Mover la basura a la izquierda
+        if (cursors.left.isDown && !movingLeft) {
+            movingLeft = true; // Establece que ya se ha movido a la izquierda
+            if (trash.x <= 1700 && trash.x > 1400)
+                trash.x = 1400;
+            else if (trash.x <= 1400 && trash.x > 1100)
+                trash.x = 1100;
+            else if (trash.x <= 1100 && trash.x > 800)
+                trash.x = 800;
+            else if (trash.x <= 800 && trash.x > 500)
+                trash.x = 500;
+            else if (trash.x <= 500 && trash.x > 200)
+                trash.x = 200;
+        } else if (cursors.left.isUp) {
+            movingLeft = false; // Resetea el estado cuando la tecla se suelta
+        }
     }
 
-    // Hacer que la basura baje más rápido cuando presionas la tecla abajo
-    if (cursors.down.isDown && puedeApretarAbajo) {
-        trash.setVelocityY(velocidad + 300); // Aumenta la velocidad solo una vez
-        puedeApretarAbajo = false;
-    } else if (!cursors.down.isDown) {
-        puedeApretarAbajo = true; // Permitir volver a presionar hacia abajo
-        trash.setVelocityY(velocidad - 300); // Reestablece la velocidad al soltar la tecla abajo
+    if (cursors.down.enabled) {
+        // Hacer que la basura baje más rápido cuando presionas la tecla abajo
+        if (cursors.down.isDown && puedeApretarAbajo) {
+            trash.setVelocityY(velocidad + 300); // Aumenta la velocidad solo una vez
+            puedeApretarAbajo = false;
+        } else if (!cursors.down.isDown) {
+            puedeApretarAbajo = true; // Permitir volver a presionar hacia abajo
+            trash.setVelocityY(velocidad - 300); // Reestablece la velocidad al soltar la tecla abajo
+        }
     }
 }
 
-let canCollide = true;
+
 
 // Función para verificar si la basura cae en el contenedor correcto
 function matchContainer(trash, container) {
     if (!canCollide) return;
 
     const puntosObtenidos = calcularPuntos(trash, container);
-    if (puntosObtenidos > 0) {
+    if (puntosObtenidos > 0) 
         score += puntosObtenidos;
-    } else {
+     else {
         // Resta una vida si la basura no coincide con el contenedor
         lives--;
         livesText.setText('Vidas: ' + lives);
@@ -249,7 +259,6 @@ function matchContainer(trash, container) {
 
     // Reposiciona la basura en la parte superior con una imagen aleatoria
     trash.y = 50;
-    const posicionesX = [200, 500, 800, 1100, 1400, 1700];
     const IndiceAleatorio = Phaser.Math.Between(0, posicionesX.length - 1);
     trash.x = posicionesX[IndiceAleatorio];
     const IndiceImagenAleatorio = Phaser.Math.Between(0, imagenestrash.length - 1);
@@ -265,21 +274,21 @@ function calcularPuntos(trash, container) {
     // Log de las texturas para depuración
     console.log("Container: " + container.texture.key + ", Trash: " + trash.texture.key);
 
-    if (container.texture.key === 'contenedorPapel' && trash.texture.key === 'desechoPapel') {
+    if (container.texture.key === 'contenedorPapel' && trash.texture.key === 'desechoPapel') 
         puntos += 10;
-    } else if (container.texture.key === 'contenedorPlastico' && trash.texture.key === 'desechoPlastico') {
+     else if (container.texture.key === 'contenedorPlastico' && trash.texture.key === 'desechoPlastico') 
         puntos += 10;
-    } else if (container.texture.key === 'contenedorVidrio' && trash.texture.key === 'desechoVidrio') {
+     else if (container.texture.key === 'contenedorVidrio' && trash.texture.key === 'desechoVidrio') 
         puntos += 10;
-    } else if (container.texture.key === 'contenedorOrganico' && trash.texture.key === 'desechoOrganico') {
+     else if (container.texture.key === 'contenedorOrganico' && trash.texture.key === 'desechoOrganico') 
         puntos += 10;
-    } else if (container.texture.key === 'contenedorPeligroso' && trash.texture.key === 'desechoPeligroso') {
+     else if (container.texture.key === 'contenedorPeligroso' && trash.texture.key === 'desechoPeligroso') 
         puntos += 10;
-    } else if (container.texture.key === 'contenedorGeneral' && trash.texture.key === 'desechoGeneral') {
+     else if (container.texture.key === 'contenedorGeneral' && trash.texture.key === 'desechoGeneral') 
         puntos += 10;
-    } else {
+     else 
         puntos -= 10; // Solo se restan puntos si no hay coincidencia
-    }
+    
 
     // Log de puntos calculados
     console.log("Puntos calculados: " + puntos);
@@ -288,7 +297,11 @@ function calcularPuntos(trash, container) {
 
 // Función para terminar el juego cuando las vidas llegan a 0
 function gameOver() {
-    
+    // Desactiva las entradas del teclado
+    cursors.left.enabled = false;
+    cursors.right.enabled = false;
+    cursors.down.enabled = false;
+
     // Muestra el texto de Game Over
     this.add.text(960, 440, 'Game Over', { fontSize: '64px', fill: '#ff0000' }).setOrigin(0.5);
 
