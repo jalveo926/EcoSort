@@ -1,5 +1,4 @@
 // Configuración básica de Phaser
-
 var config = {
     type: Phaser.AUTO,
     scale: {
@@ -23,6 +22,9 @@ var config = {
 };
 
 // Variables globales
+let lives = 3;   // Cantidad de vidas
+let livesText;   // Texto de vidas
+let pauseMenu, resumeButton, mainMenuButton, restartButton;
 let trash;       // Objeto de desecho
 let cursors;     // Teclas para mover los desechos
 let containers = [];  // Array para almacenar los contenedores
@@ -38,10 +40,10 @@ let game = new Phaser.Game(config);
 
 // Preload: carga los assets (gráficos) necesarios
 function preload() {
-    this.load.image("background", ".//sprites/background.png");
+    this.load.image("background", "./sprites/background.png");
      
-    //Imagen del boton regresar
-    this.load.image('regresar', 'sprites/regresar.png');
+    //Imagen del boton del menú
+    this.load.image('menú', 'sprites/menú.png');
 
     //Imagenes de los contenedores
     this.load.image('contenedorPapel', 'sprites/contenedorPapel.png'); // Contenedor de papel
@@ -62,31 +64,19 @@ function preload() {
 
 // Create: inicializa los objetos en la escena
 function create() {
-    
-        // Crear botón interactivo en la parte superior derecha
-    const volver = this.add.image(1800, 70, 'regresar').setInteractive().setDisplaySize(100, 80);
-    
-    volver.on('pointerdown', () => {
-        // Redirigir a la página principal
-        window.location.href = "/Interfaz-principal/EcoSort.html";
-    });
-
 
     // Fondo centrado en la parte superior, la imagen esta en comentario porque ocupa mucho espacio por ahora
-    //this.add.image(0,0, "background"); 
+    this.add.image(0,0, "background"); 
 
     // Contenedores en la parte inferior (6 en total)
     // Crear los contenedores en la parte inferior (6 en total)
     containers[0] = this.physics.add.staticImage(200, 870, 'contenedorPapel').setDisplaySize(260,400);
-    
-
     containers[1] = this.physics.add.staticImage(500, 870, 'contenedorPlastico').setDisplaySize(260,400);
     containers[2] = this.physics.add.staticImage(800, 870, 'contenedorVidrio').setDisplaySize(260,400);
     containers[3] = this.physics.add.staticImage(1100, 870, 'contenedorPeligroso').setDisplaySize(260,400);
     containers[4] = this.physics.add.staticImage(1400, 870, 'contenedorOrganico').setDisplaySize(260,400);
     containers[5] = this.physics.add.staticImage(1700, 870, 'contenedorGeneral').setDisplaySize(260,400);
     
-
     const posicionesX = [200, 500, 800, 1100, 1400, 1700];
     const IndicePosicionAleatorio = Phaser.Math.Between(0, posicionesX.length - 1);
     const IndiceImagenAleatorio = Phaser.Math.Between(0, imagenestrash.length - 1);
@@ -106,16 +96,90 @@ function create() {
     // Teclado para mover la basura
     cursors = this.input.keyboard.createCursorKeys();
 
-    // Mostrar la puntuación en pantalla
+    // Mostrar la puntuación y vida en pantalla
     scoreText = this.add.text(16, 16, 'Puntuación: 0', { fontSize: '32px', fill: '#fff' });
+    livesText = this.add.text(16, 56, 'Vidas: ' + lives, { fontSize: '32px', fill: '#fff' }); 
+
+    // Crear el botón del menú
+    pauseButton = this.add.image(1820, 80, 'menú')
+    .setDisplaySize(80, 80)
+    .setOrigin(0.5)
+    .setInteractive()
+    .setDepth(10)  // Asegura que esté sobre todos los demás elementos
+    .on('pointerdown', () => {
+        if (this.scene.isPaused()) {
+            pauseMenu.setVisible(false);
+            this.scene.resume();
+        } else {
+            pauseMenu.setVisible(true);
+        }
+    }); 
+
+// Crear el menú de menú (inicialmente oculto)
+pauseMenu = this.add.group();
+
+// Fondo semitransparente
+let background = this.add.rectangle(1800, 270, 400, 250, 0x000000, 0.5)
+.setDepth(9);  // Fondo del menú en un nivel alto
+pauseMenu.add(background);
+
+// Botón de Reanudar
+resumeButton = this.add.text(1770, 220, 'Reanudar', { fontSize: '32px', fill: '#FFF' })
+.setOrigin(0.5)
+.setInteractive()
+.setDepth(100)  // Nivel superior
+.on('pointerdown', () => {
+    pauseMenu.setVisible(false);
+    this.scene.resume();  // Reanuda la escena
+});
+pauseMenu.add(resumeButton);
+
+// Botón de Reiniciar Nivel
+restartButton = this.add.text(1760, 270, 'Reiniciar Nivel', { fontSize: '32px', fill: '#FFF' })
+.setOrigin(0.5)
+.setInteractive()
+.setDepth(100)
+.on('pointerdown', () => {
+    lives = 3;
+    livesText.setText('Vidas: '+ lives);
+    this.scene.restart();  // Reinicia el nivel actual
+});
+pauseMenu.add(restartButton);
+
+// Botón de Regresar al menú principal
+mainMenuButton = this.add.text(1770, 330, 'Menú Principal', { fontSize: '32px', fill: '#FFF' })
+.setOrigin(0.5)
+.setInteractive()
+.setDepth(100)
+.on('pointerdown', () => {
+    this.scene.stop();  // Detiene el nivel actual
+    window.location.href = 'Interfaz-principal/EcoSort.html';  // Redirige a la URL deseada
+});
+pauseMenu.add(mainMenuButton);
+
+// Oculta el menú de menú al inicio
+pauseMenu.setVisible(false);
+
+// Detecta tecla de menú
+this.input.keyboard.on('keydown-ESC', () => {
+if (this.scene.isPaused()) {
+    pauseMenu.setVisible(false);
+    this.scene.resume();
+} else {
+    pauseMenu.setVisible(true);
+}
+});
+
 }
 var puedeApretarAbajo= true;
 var velocidad =600;
+
+
 // Update: se ejecuta en cada frame, maneja las interacciones
 function update() {
 
-    trash.setDisplaySize(120, 120);
-    trash.setSize(80,80);
+    trash.setDisplaySize(170, 170);
+    trash.setSize(100,100);
     // Mover la basura a la derecha
     if (cursors.right.isDown && !movingRight) {
         movingRight = true; // Establece que ya se ha movido a la derecha
@@ -161,39 +225,39 @@ function update() {
 }
 
 let canCollide = true;
+
 // Función para verificar si la basura cae en el contenedor correcto
 function matchContainer(trash, container) {
-    if( !canCollide) return;
-     // Sumar puntos por acierto
-     const puntosObtenidos = calcularPuntos(trash, container);
-    
-     if (score  + puntosObtenidos < 0) 
-         score = 0;
-     else 
-         score += puntosObtenidos;
-     
-     scoreText.setText('Puntuación: ' + score);
-    if (container.texture && container.texture.key) {
-        console.log("Container clave: " + container.texture.key);
-    } else {
-        console.error("El contenedor no está definido correctamente:", container);
-        return; // Salir de la función si el contenedor no es válido
-    }
+    if (!canCollide) return;
 
-    // Lógica para detectar si es el contenedor correcto
+    const puntosObtenidos = calcularPuntos(trash, container);
+    if (puntosObtenidos > 0) {
+        score += puntosObtenidos;
+    } else {
+        // Resta una vida si la basura no coincide con el contenedor
+        lives--;
+        livesText.setText('Vidas: ' + lives);
+        if (lives <= 0) {
+            lives = 0;
+            gameOver.call(this); // Llama a la función para finalizar el juego
+            return;
+        }
+    }
+    
+    // Actualiza el texto de puntuación
+    scoreText.setText('Puntuación: ' + score);
+
+    // Reposiciona la basura en la parte superior con una imagen aleatoria
     trash.y = 50;
     const posicionesX = [200, 500, 800, 1100, 1400, 1700];
     const IndiceAleatorio = Phaser.Math.Between(0, posicionesX.length - 1);
     trash.x = posicionesX[IndiceAleatorio];
     const IndiceImagenAleatorio = Phaser.Math.Between(0, imagenestrash.length - 1);
     trash.setTexture(imagenestrash[IndiceImagenAleatorio]);
-    trash.setDisplaySize(120, 120);
-    trash.setSize(80,80);
 
-   canCollide = false;
-   setTimeout(() => {canCollide = true; }, 1000);
+    canCollide = false;
+    setTimeout(() => { canCollide = true; }, 1000);
 }
-
 
 function calcularPuntos(trash, container) {
     let puntos = 0;
@@ -220,5 +284,28 @@ function calcularPuntos(trash, container) {
     // Log de puntos calculados
     console.log("Puntos calculados: " + puntos);
     return puntos;
+}
+
+// Función para terminar el juego cuando las vidas llegan a 0
+function gameOver() {
+    
+    // Muestra el texto de Game Over
+    this.add.text(960, 440, 'Game Over', { fontSize: '64px', fill: '#ff0000' }).setOrigin(0.5);
+
+    // Botón para reiniciar el juego (recarga la página)
+    const restartButton = this.add.text(960, 520, 'Reiniciar', { fontSize: '32px', fill: 'black' })
+        .setOrigin(0.5)
+        .setInteractive()
+        .on('pointerdown', () => {
+            location.reload(); // Para recargar la página
+        });
+
+    // Botón para ir a la página principal
+    const mainMenuButton = this.add.text(960, 580, 'Menú Principal', { fontSize: '32px', fill: 'black' })
+        .setOrigin(0.5)
+        .setInteractive()
+        .on('pointerdown', () => {
+            window.location.href = 'Interfaz-principal/EcoSort.html'; // Redirige a la página del menú principal
+        });
 }
 
