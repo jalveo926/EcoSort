@@ -11,7 +11,7 @@ var config = {
         default: 'arcade', //Tipo de fisica a usar
         arcade: {
             gravity: { y: 300 }, // Gravedad para que los desechos caigan
-            debug: true // Me permite ver la hitbox de los objetos 
+            debug: false // Me permite ver la hitbox de los objetos 
         }
     },
     scene: {
@@ -183,8 +183,9 @@ function update() {
     trash.setDisplaySize(170, 170);
     trash.setSize(100, 100);
 
+    //Mejorar la redundancia de if
     // Solo permite movimiento si las teclas están habilitadas
-    if (cursors.right.enabled) {
+    if (cursors.right.enabled) 
         // Mover la basura a la derecha
         if (cursors.right.isDown && !movingRight) {
             movingRight = true; // Establece que ya se ha movido a la derecha
@@ -198,10 +199,10 @@ function update() {
                 trash.x = 1400;
             else if (trash.x >= 1400 && trash.x < 1700)
                 trash.x = 1700;
-        } else if (cursors.right.isUp) {
+        } else if (cursors.right.isUp) 
             movingRight = false; // Resetea el estado cuando la tecla se suelta
-        }
-    }
+        
+    
 
     if (cursors.left.enabled) {
         // Mover la basura a la izquierda
@@ -273,7 +274,7 @@ function calcularPuntos(trash, container) {
 
     // Log de las texturas para depuración
     console.log("Container: " + container.texture.key + ", Trash: " + trash.texture.key);
-
+    //Mejorar la redundancia de if
     if (container.texture.key === 'contenedorPapel' && trash.texture.key === 'desechoPapel') 
         puntos += 10;
      else if (container.texture.key === 'contenedorPlastico' && trash.texture.key === 'desechoPlastico') 
