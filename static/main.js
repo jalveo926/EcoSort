@@ -319,7 +319,7 @@ function gameOver() {
         .setOrigin(0.5)
         .setInteractive()
         .on('pointerdown', () => {
-            window.location.href = '/EcoSort.html'; // Redirige a la página del menú principal
+            window.location.href = '/index.html'; // Redirige a la página del menú principal
         });
 }
 
