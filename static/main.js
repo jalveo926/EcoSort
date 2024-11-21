@@ -44,7 +44,7 @@ let game = new Phaser.Game(config);
 
 // Preload: carga los assets (gráficos) necesarios
 function preload() {
-    this.load.image("background", "./sprites/background.png");
+    this.load.image("background", 'sprites/background.png');
      
     //Imagen del boton del menú
     this.load.image('menú', 'sprites/menú.png');
