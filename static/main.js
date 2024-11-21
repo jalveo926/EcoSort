@@ -157,7 +157,7 @@ mainMenuButton = this.add.text(1770, 330, 'Menú Principal', { fontSize: '32px',
 .setDepth(100)
 .on('pointerdown', () => {
     this.scene.stop();  // Detiene el nivel actual
-    window.location.href = '/index.html';  // Redirige a la URL deseada
+    window.location.href = '../index.html';  // Redirige a la URL deseada
 });
 pauseMenu.add(mainMenuButton);
 
@@ -272,8 +272,8 @@ function matchContainer(trash, container) {
 function calcularPuntos(trash, container) {
     let puntos = 0;
 
-    // Log de las texturas para depuración
-    console.log("Container: " + container.texture.key + ", Trash: " + trash.texture.key);
+   
+    
     //Mejorar la redundancia de if
     if (container.texture.key === 'contenedorPapel' && trash.texture.key === 'desechoPapel') 
         puntos += 10;
@@ -291,8 +291,7 @@ function calcularPuntos(trash, container) {
         puntos -= 10; // Solo se restan puntos si no hay coincidencia
     
 
-    // Log de puntos calculados
-    console.log("Puntos calculados: " + puntos);
+   
     return puntos;
 }
 
@@ -319,7 +318,7 @@ function gameOver() {
         .setOrigin(0.5)
         .setInteractive()
         .on('pointerdown', () => {
-            window.location.href = '/index.html'; // Redirige a la página del menú principal
+            window.location.href = '../index.html'; // Redirige a la página del menú principal
         });
 }
 
