@@ -157,7 +157,7 @@ mainMenuButton = this.add.text(1770, 330, 'Menú Principal', { fontSize: '32px',
 .setDepth(100)
 .on('pointerdown', () => {
     this.scene.stop();  // Detiene el nivel actual
-    window.location.href = 'Interfaz-principal/EcoSort.html';  // Redirige a la URL deseada
+    window.location.href = 'Interfaz-principal/index.html';  // Redirige a la URL deseada
 });
 pauseMenu.add(mainMenuButton);
 
