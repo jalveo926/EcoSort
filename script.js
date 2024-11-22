@@ -1,6 +1,7 @@
 // Abre y cierra el boton de jugar
 document.getElementById("openJugar").onclick = function() {
     document.getElementById("jugar").style.display = "block";
+    window.location.href ="EcoSort.html";
 };
 
 document.getElementById("closeJugar").onclick = function() {
