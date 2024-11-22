@@ -176,8 +176,6 @@ if (this.scene.isPaused()) {
 
 }
 
-
-
 // Update: se ejecuta en cada frame, maneja las interacciones
 function update() {
     trash.setDisplaySize(170, 170);
